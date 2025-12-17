@@ -4,3 +4,33 @@ metadata:
   name: selfsigned
 spec:
   selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-cert
+  namespace: argocd
+spec:
+  secretName: argocd-tls
+  duration: 8760h
+  renewBefore: 720h
+  issuerRef:
+    name: selfsigned
+    kind: ClusterIssuer
+  dnsNames:
+    - argocd.local
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pihole-cert
+  namespace: pihole
+spec:
+  secretName: pihole-tls
+  duration: 8760h
+  renewBefore: 720h
+  issuerRef:
+    name: selfsigned
+    kind: ClusterIssuer
+  dnsNames:
+    - pihole.local
