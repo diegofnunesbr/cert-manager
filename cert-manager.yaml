@@ -5836,9 +5836,33 @@ webhooks:
         namespace: cert-manager
         path: /validate
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: cloudflare-sealedsecret
+  namespace: cert-manager
+spec:
+  encryptedData:
+    api-token: AgBVz037oPAeLaXUvU+MYsRMpKu5vTfuyxv7no1JLL1ith84rO3np4JRqDHn2fCBCDwoMcmn8WsloT48X6AEVC0cj/g54LZf2z+olrVbeGMosCyTPzyBLXlBmulpgyDgUpgihvkk+ornOxzCthFK40lWfOG07Hde/W+7XFBHW1qyAoO+QDipsUekC71OHBdzarRUHguOlpneZ738CjwfAtWveIcZHvGDtSAuAAs67p+DMra2e41cU66DEHbRg6qs58UY4AaSOrj3z+VwEBJHl1SBh3nhblUlV2dxFkYdlD0WHzLl/pNjNyMBM71Z5pvwLZatUAr9pzRYv1IqO866eOcISCf67CS7a0pbz6xM/IzoJnytQH6hjxoGRiSFJ45wsoxnMlSYsT7OS0uZclG4GVKr/EjrpZzdGdgERBNr5CWM0Lc3YanIhq1bFpNFJsXgqHSB5GXgHISPkcP9P/tM3kiNFNRDMJAuOzZocT/8iY+ED9wqvpwhVVonwA1DDDHCoO3bRaZe86kn3EecxvoeuuhBJIFUNB5O3OwN9caYhy5rDYNKSv4l7NCMaPOm16gylCJSnT83LqsBJErE+oKIlL9ftGxKeTtRTV/Psv/hK0nsANKJX6LYd+2xqWl1OocnI8RcIFg8oO0Zt8Z8c9gyE7ZKpm9amGAnXXOR/NspZDZEdrdCKZQKNpDZ5sppfqwtpp0l59bQqizAR9CfDWv319v9gcQ86pc1ObmDLmmeUMoJRTe/4BDl/0Fx
+  template:
+    metadata:
+      name: cloudflare-secret
+      namespace: cert-manager
+    type: Opaque
+---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: selfsigned
+  name: letsencrypt-cloudflare
 spec:
-  selfSigned: {}
+  acme:
+    email: diegofnunesbr@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-cloudflare-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-secret
+              key: api-token
