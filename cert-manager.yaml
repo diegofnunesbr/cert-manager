@@ -5866,10 +5866,3 @@ spec:
             apiTokenSecretRef:
               name: cloudflare-secret
               key: api-token
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: selfsigned
-spec:
-  selfSigned: {}
