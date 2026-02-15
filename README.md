@@ -20,6 +20,7 @@ kubectl apply -f applications/argocd-cert-manager.yaml
 ## Remover o cert-manager
 
 ```bash
+cd cert-manager
 kubectl delete -f applications/argocd-cert-manager.yaml
 kubectl delete namespace cert-manager
 ```
