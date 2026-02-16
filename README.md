@@ -6,6 +6,7 @@ Este guia descreve a instalação e remoção do **cert-manager** em um cluster 
 
 - `Kubernetes` instalado
 - `kubectl` instalado
+- `Sealed Secrets` instalado
 
 ## Estrutura do repositório
 
