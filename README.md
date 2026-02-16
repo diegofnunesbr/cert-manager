@@ -24,13 +24,13 @@ cert-manager/
 ```bash
 git clone https://github.com/diegofnunesbr/cert-manager.git
 cd cert-manager
-kubectl apply -f applications/argocd-cert-manager.yaml
+kubectl apply -f applications/argocd.yaml
 ```
 
 ## Remover o cert-manager
 
 ```bash
 cd cert-manager
-kubectl delete -f applications/argocd-cert-manager.yaml
+kubectl delete -f applications/argocd.yaml
 kubectl delete namespace cert-manager --ignore-not-found
 ```
