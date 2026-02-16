@@ -12,8 +12,8 @@ Este guia descreve a instalação e remoção do **cert-manager** em um cluster 
 ```text
 cert-manager/
 ├── applications/
-│   └── argocd.yaml       # Application do Argo CD
-├── cert-manager.yaml     # Manifests do cert-manager
+│   └── argocd.cert-manager.yaml     # Application do Argo CD
+├── cert-manager.yaml                # Manifests do cert-manager
 └── README.md
 ```
 
@@ -24,13 +24,13 @@ cert-manager/
 ```bash
 git clone https://github.com/diegofnunesbr/cert-manager.git
 cd cert-manager
-kubectl apply -f applications/argocd.yaml
+kubectl apply -f applications/argocd.cert-manager.yaml
 ```
 
 ## Remover o cert-manager
 
 ```bash
 cd cert-manager
-kubectl delete -f applications/argocd.yaml
+kubectl delete -f applications/argocd.cert-manager.yaml
 kubectl delete namespace cert-manager --ignore-not-found
 ```
