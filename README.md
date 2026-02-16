@@ -12,8 +12,8 @@ Este guia descreve a instalação e remoção do **cert-manager** em um cluster 
 ```text
 cert-manager/
 ├── applications/
-│   └── argocd.yaml        # Application do Argo CD
-├── cert-manager.yaml      # Manifests do cert-manager
+│   └── argocd.yaml       # Application do Argo CD
+├── cert-manager.yaml     # Manifests do cert-manager
 └── README.md
 ```
 
