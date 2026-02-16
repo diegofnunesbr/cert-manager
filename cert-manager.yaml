@@ -5836,6 +5836,20 @@ webhooks:
         namespace: cert-manager
         path: /validate
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: cert-manager-secret
+  namespace: cert-manager
+spec:
+  encryptedData:
+    api-token: AgApjyEHKZIzVqgSdgfo42BeOzLjXNZwh+QtiMR9UHPkj6NwugHy25YOyKMChY5+zbbb4zY51U1eZ32zw/0KapXtoIJH53jLJkWduOwyAoEyLkjAW0zdSjMcUQpPRSoEjAHqPTeP/s5UsbvxNyE7nmOGQMFoyFo/q1WsJ8eD0eZASu26prxf2ClITC8CDGHVi42dsSobjFiLu+T4+PyOhre4jX7wFN3+g7h7xF3GxsZ5MZ/izYbZ0W8ZZiwdHq7nJdptdUrAP2O454gMOUtyF6sXQmkNHRk1vT6jC+W8iRGuQ8c32no8ibB1vHA3A2Pxzaxoc+hVFyH98Ip3Psw12NvPpIK4la4zBXAiGUWbAVI35ZloQPi4MS27+bMJPgHj3H2uSu3RNAddx3EIGYGSYMk0rtmuNaOkSkVc2MTge9Q0z/VlSm+KzRjA0b9Ior0ApN87PHtU9JOyU+aayaPb24ZkCKbzAlnpmaH5BT4LjbHiHK4cBZC34USPRiRGwJvgxCGQlUPta0rMEy4QnzQXiL09rhA6BL+yvC3nPsBa/35XOHVjYJTM4su3uNU9NKTqzDxOnu8S/434BaxbPNfK+h1KdfmRTFm443O8WasWgYj+P/KTpdeTwTaw4O/pokTrOObXBf142zICq4aDcxLsfXDA2SvYXAgd7shq9Q+jSVB/Hi+zVOMyzf1cEGnlz/7H4VxLPqoKMUeUetdn8kEnzAOLFiq052lMJEWMeDmV2XruMSMiwEQ38n4M
+  template:
+    metadata:
+      name: cert-manager-secret
+      namespace: cert-manager
+    type: Opaque
+---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
