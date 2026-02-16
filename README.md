@@ -20,9 +20,11 @@ cert-manager/
 
 ---
 
-## Gerar o Secret local
+## Gerar arquivo cert-manager-secret.yaml
 
 ```bash
+git clone https://github.com/diegofnunesbr/cert-manager.git
+cd cert-manager
 kubectl create secret generic cert-manager-secret -n cert-manager --from-literal=api-token="SEU_TOKEN" --dry-run=client -o yaml > unsealed.secret.yaml
 kubeseal --controller-namespace sealed-secrets --format yaml < unsealed.secret.yaml > cert-manager-secret.yaml
 rm unsealed.secret.yaml
@@ -34,7 +36,6 @@ git push
 ## Instalar o cert-manager
 
 ```bash
-git clone https://github.com/diegofnunesbr/cert-manager.git
 cd cert-manager
 kubectl apply -f applications/argocd.cert-manager.yaml
 ```
