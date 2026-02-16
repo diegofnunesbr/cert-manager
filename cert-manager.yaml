@@ -5839,30 +5839,30 @@ webhooks:
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
-  name: cloudflare-secret
+  name: cert-manager-secret
   namespace: cert-manager
 spec:
   encryptedData:
     api-token: AgBOeoM/rsjYbI/Td2sjmkAEWgM5obzHmbohbpP3kVKUOE8QR5RTZ2a5RPxaP/bEywLH6LgptSd5MrmFp1WHDg1RVhCOUW8jT4N70gRlrMffDT8dxpgCuSOd171ZS6YxnG1bxgzn9Qo/TYGXL0P7joWfuMw51ze+eEzDqyANOEC8x34hF+nw85qymPB1ao0P8M8YT+1vosojYCCrMXRpD5fm5e3dpiZeVBKDAKNWRev+vYXmeKYuWnZ8fad/Njcw3YITw9Vn41KNaOCmjWk3H5CcNdbhj0KjUTQ7GyIet3Y4/QBvxa9tUcijeq+T0IMQ6hJpICpHoVz8NAr8FTExC7ugL5OS+9o8tS4Gr8dvOOo0t4sPUQZU/iYqc8EEm6J6ZTTG3E7TjUr2PewCD1XZCJL9QMzO6ymcmStsxFSyJDkzke0Slca1uLN+k78D9KHOAh233zc3vG1YuLpwcRq0hiidw1ISzEDVfidR7FcUJLMr0uaVzMq8E9m4UAm2GQNB5pQur1PLtuJ3phLzndTvOEEkhjHHgctBDMnDPewQhTB+HA/zYA8Po0pjrfTng3N3YqzhxUNV1AVq2JAUp3kWtgfcy6Mk14KVY1jMG9qQ1idA0VQTLJMZHiYAMa6y3hLQYQmrZEjsq3pNV+5zshNG4lSxpA3r+fObjDPUFNuSIzGP+2V8L1VuG+IrPpqkbA53l8vjV0KpXePEw68fHrR9tdV1q6cnhUtVdDvvHVQwbsl0YiYcUTVZX7Tb
   template:
     metadata:
-      name: cloudflare-secret
+      name: cert-manager-secret
       namespace: cert-manager
     type: Opaque
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-cloudflare
+  name: letsencrypt-clusterissuer
 spec:
   acme:
     email: diegofnunesbr@gmail.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-cloudflare-key
+      name: letsencrypt-clusterissuer-key
     solvers:
       - dns01:
           cloudflare:
             apiTokenSecretRef:
-              name: cloudflare-secret
+              name: cert-manager-secret
               key: api-token

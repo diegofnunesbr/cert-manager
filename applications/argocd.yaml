@@ -10,6 +10,8 @@ spec:
     repoURL: https://github.com/diegofnunesbr/cert-manager.git
     targetRevision: main
     path: .
+    directory:
+      include: cert-manager.yaml
 
   destination:
     server: https://kubernetes.default.svc
