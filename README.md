@@ -6,6 +6,7 @@ Este guia descreve a instalação e remoção do **cert-manager** em um cluster 
 
 - `Kubernetes` instalado
 - `kubectl` instalado
+- `kubeseal` instalado
 - `Sealed Secrets` instalado
 
 ## Estrutura do repositório
@@ -20,13 +21,13 @@ cert-manager/
 
 ---
 
-## Gerar o api-token do Secret cert-manager-secret
+## Gerar o SealedSecret cert-manager-secret
 
-OBS: Copiar e colar dentro do recurso cert-manager-secret do arquivo cert-manager.yaml
+OBS: Copiar o conteúdo api-token do arquivo sealed.secret.yaml no arquivo cert-manager.yaml
 
 ```bash
 kubectl create secret generic cert-manager-secret -n cert-manager --from-literal=api-token="SEU_TOKEN" --dry-run=client -o yaml > unsealed.secret.yaml
-kubeseal --controller-namespace sealed-secrets --format yaml < unsealed.secret.yaml > cert-manager-secret.yaml
+kubeseal --controller-namespace sealed-secrets --format yaml < unsealed.secret.yaml > sealed.secret.yaml
 ```
 
 ## Instalar o cert-manager
