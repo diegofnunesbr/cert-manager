@@ -33,15 +33,18 @@ cert-manager/
 ## Gerar o SealedSecret cert-manager-secret
 
 ```bash
+read -rsp "Token Cloudflare: " T; echo
 kubectl create secret generic cert-manager-secret -n cert-manager \
-  --from-literal=api-token="SEU_TOKEN_DO_CLOUDFLARE" \
-  --dry-run=client -o yaml > unsealed.secret.yaml
-
-kubeseal --controller-name sealed-secrets --controller-namespace kube-system \
-  --format yaml < unsealed.secret.yaml > sealed.secret.yaml
-
-rm -f unsealed.secret.yaml
+  --from-file=api-token=<(printf '%s' "$T") \
+  --dry-run=client -o yaml \
+  | kubeseal --controller-name sealed-secrets --controller-namespace kube-system \
+      --format yaml > sealed.secret.yaml
+unset T
 ```
+
+O `read -s` pede o token sem mostrar na tela, e ele nunca aparece na
+linha de comando: nada vai pro `~/.bash_history` e nenhum arquivo não
+selado é gravado em disco.
 
 **Atenção pro nome/namespace do controller**: mudou depois que o
 `sealed-secrets` passou a ser gerenciado pelo ArgoCD (via `core-config`)
