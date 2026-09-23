@@ -10,7 +10,7 @@ spec:
     targetRevision: main
     path: .
     directory:
-      include: cert-manager.yaml
+      include: "{cert-manager.yaml,mimir-agents-ca.yaml}"
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
