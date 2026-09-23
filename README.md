@@ -39,11 +39,19 @@ no envio de métricas pro Mimir (mesmo modelo da empresa, onde os agentes
 enviam pro gateway `telemetry-agents` com certificado de cliente):
 
 - `ClusterIssuer selfsigned` assina o certificado da CA
-  (`Certificate mimir-agents-ca`, 10 anos, Secret `mimir-agents-ca` na
+  (`Certificate mimir-agents-ca`, 1 ano, Secret `mimir-agents-ca` na
   namespace `cert-manager`).
 - `ClusterIssuer mimir-agents-ca` usa essa CA pra emitir os certificados
   de cliente (hoje só o `alloy-mtls-client`, no repositório `rundeck`).
 - O Ingress do Mimir confia nela via `auth-tls-secret: cert-manager/mimir-agents-ca`.
+
+A CA é renovada sozinha todo ano (aos 2/3 da validade, o padrão do
+cert-manager) **mantendo a mesma chave privada**, por causa do
+`rotationPolicy: Never`. Por isso a renovação é invisível: os certificados
+de cliente já emitidos continuam sendo aceitos. **Não tire essa linha:** a
+partir do cert-manager 1.18 o padrão virou `Always`, e sem ela cada
+renovação anual geraria uma chave nova, invalidando o certificado de todas
+as VMs até alguém rodar o job `install-alloy` em cada uma.
 
 A chave da CA é gerada pelo próprio cert-manager dentro do cluster e não
 vai pro git. Num cluster recriado do zero nasce uma CA nova: o cert-manager

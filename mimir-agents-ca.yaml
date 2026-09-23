@@ -14,10 +14,11 @@ spec:
   isCA: true
   commonName: mimir-agents-ca
   secretName: mimir-agents-ca
-  duration: 87600h
+  duration: 8760h
   privateKey:
     algorithm: ECDSA
     size: 256
+    rotationPolicy: Never
   issuerRef:
     name: selfsigned
     kind: ClusterIssuer
