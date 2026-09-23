@@ -27,36 +27,8 @@ cert-manager/
 ├── applications/
 │   └── argocd.cert-manager.yaml     # Application do Argo CD
 ├── cert-manager.yaml                # Manifests do cert-manager + SealedSecret + ClusterIssuer
-├── mimir-agents-ca.yaml             # CA interna do mTLS entre o Alloy das VMs e o Mimir
 └── README.md
 ```
-
-## CA interna do mTLS do Mimir (`mimir-agents-ca.yaml`)
-
-Além do `letsencrypt-clusterissuer` (certificados públicos dos Ingress),
-este repositório cria uma CA própria, só pra autenticar o Alloy das VMs
-no envio de métricas pro Mimir (mesmo modelo da empresa, onde os agentes
-enviam pro gateway `telemetry-agents` com certificado de cliente):
-
-- `ClusterIssuer selfsigned` assina o certificado da CA
-  (`Certificate mimir-agents-ca`, 1 ano, Secret `mimir-agents-ca` na
-  namespace `cert-manager`).
-- `ClusterIssuer mimir-agents-ca` usa essa CA pra emitir os certificados
-  de cliente (hoje só o `alloy-mtls-client`, no repositório `rundeck`).
-- O Ingress do Mimir confia nela via `auth-tls-secret: cert-manager/mimir-agents-ca`.
-
-A CA é renovada sozinha todo ano (aos 2/3 da validade, o padrão do
-cert-manager) **mantendo a mesma chave privada**, por causa do
-`rotationPolicy: Never`. Por isso a renovação é invisível: os certificados
-de cliente já emitidos continuam sendo aceitos. **Não tire essa linha:** a
-partir do cert-manager 1.18 o padrão virou `Always`, e sem ela cada
-renovação anual geraria uma chave nova, invalidando o certificado de todas
-as VMs até alguém rodar o job `install-alloy` em cada uma.
-
-A chave da CA é gerada pelo próprio cert-manager dentro do cluster e não
-vai pro git. Num cluster recriado do zero nasce uma CA nova: o cert-manager
-reemite o certificado de cliente sozinho, e basta rodar o job
-`install-alloy` do Rundeck de novo em cada VM pra ela receber o novo.
 
 ## Gerar o SealedSecret cert-manager-secret
 
